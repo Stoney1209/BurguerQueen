@@ -1,0 +1,1 @@
+export const KEY_TOKEN = 'ddr_key_token'

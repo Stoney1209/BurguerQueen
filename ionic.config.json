@@ -1,0 +1,7 @@
+{
+  "name": "08-burguer-queen-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

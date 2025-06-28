@@ -1,0 +1,96 @@
+<ion-content [fullscreen]="true">
+
+    <!-- creamos un alias para productSignal() -->
+    @if(productSignal(); as product){
+
+        <ion-grid>
+
+            <!-- Cantidad y total del producto -->
+            <ion-row>
+                <ion-col>
+                    <ion-item lines="none">
+                        <ion-label>{{'label.price' | translate}}: {{product | calculateTotalPrice:quantitySignal()}} €</ion-label>
+                        <ion-button [disabled]="quantitySignal() == 1" (click)="minusQuantity()">
+                            <ion-icon name="remove-outline" />
+                        </ion-button>
+                        <ion-text class="ion-margin-start ion-margin-end" >{{quantitySignal()}}</ion-text>
+                        <ion-button (click)="addQuantity()">
+                            <ion-icon name="add-outline" />
+                        </ion-button>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <!-- Info del producto -->
+            <ion-row>
+                <ion-col>
+                    <ion-card class="list ion-text-center">
+                        <ion-img [src]="product.img | imageUrl" />
+                        <ion-card-header>
+                            <ion-card-title>{{product.name | translate}}</ion-card-title>
+                            <ion-card-subtitle>{{'label.price' | translate}}: {{product.price}}€</ion-card-subtitle>
+                        </ion-card-header>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+
+            <!-- Extras del producto -->
+            @if(product.extras){
+                <ion-row>
+                    @for(extra of product.extras; track extra){
+                        <ion-col size="6">
+                            <ion-card class="list ion-text-center">
+                                <ion-img [src]="extra.img | imageUrl" />
+                                <ion-card-header>
+                                    <ion-card-title>
+                                        {{extra.name | translate}}
+                                    </ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <!-- cuando tiene una opcion, lo representamos con un checkbox -->
+                                    @if(extra.options.length == 1){
+
+                                        <ion-checkbox 
+                                        [(ngModel)]="extra.options[0].selected"
+                                        name="checkbox"
+                                        labelPlacement="end">
+
+                                            @let extraCheckbox = extra.options[0];
+
+                                            {{extraCheckbox.selected ? extraCheckbox.price : '0'}}€
+                                        </ion-checkbox>
+                                    } @else {
+                                        <!-- Cuando tiene varias opciones, se representan con varios radios -->
+                                        <ion-radio-group [value]="extra.options[0].name" (ionChange)="changeMultipleOptions($event, extra.options)">
+
+                                            @for(option of extra.options; track option){
+                                                @if(option.name){
+                                                    <ion-item lines="none" class="ion-no-padding">
+                                                        <ion-label>{{option.name | translate}} ({{option.price}}€)</ion-label>
+                                                        <ion-radio  slot="end" [value]="option.name" />
+                                                    </ion-item>
+                                                }
+                                                
+                                            }
+
+                                        </ion-radio-group>
+                                    }
+                                </ion-card-content>
+                            </ion-card>
+                        </ion-col>
+                    }
+                </ion-row>
+            }
+
+        </ion-grid>
+
+        <!-- Boton para añadir el producto -->
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button (click)="addProductOrder(product)">
+              <ion-icon name="add-outline" />
+            </ion-fab-button>
+        </ion-fab>
+
+    }
+
+</ion-content>

@@ -1,0 +1,24 @@
+<ion-content [fullscreen]="true">
+
+  <!-- Refresher -->
+  <ion-refresher slot="fixed" (ionRefresh)="refreshCategories($event)">
+    <ion-refresher-content/>
+  </ion-refresher>
+
+  <ion-grid>
+    <ion-row>
+      <!-- Categorias -->
+      @for(category of categories; track category._id){
+        <ion-col size="6">
+          <ion-card class="list ion-text-center" (click)="goToProducts(category)">
+            <ion-img [src]="category.img | imageUrl" />
+            <ion-card-header>
+              <ion-card-title>{{category.name | translate}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ion-col> 
+      }
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
