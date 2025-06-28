@@ -43,7 +43,7 @@ Sigue estos pasos para instalar y ejecutar la aplicación en tu equipo:
 
 1️⃣ **Clonar el repositorio**
 
-git clone https://github.com/tu-usuario/burguen-queen-app.git
+git clone https://github.com/Stoney1209/BurguerQueen.git
 
 2️⃣ Entrar en el directorio
 
